@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  ssn: 1
+  name: MyText
+  lot: 1
+
+two:
+  ssn: 1
+  name: MyText
+  lot: 1

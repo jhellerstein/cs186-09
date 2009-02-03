@@ -1,0 +1,102 @@
+  [4;36;1mSQL (0.000324)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.000124)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mSQL (0.000234)[0m   [0;1mSET search_path TO public[0m
+  [4;35;1mSQL (1.030160)[0m   [0mCREATE DATABASE "empdept_development" ENCODING = 'utf8'[0m
+  [4;36;1mSQL (0.000304)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.000123)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mPGError: ERROR: relation "employees" does not exist
+: SELECT a.attname, format_type(a.atttypid, a.atttypmod), d.adsrc, a.attnotnull
+ FROM pg_attribute a LEFT JOIN pg_attrdef d
+ ON a.attrelid = d.adrelid AND a.attnum = d.adnum
+ WHERE a.attrelid = 'employees'::regclass
+ AND a.attnum > 0 AND NOT a.attisdropped
+ ORDER BY a.attnum
+[0m
+  [4;36;1mSQL (0.000299)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.000121)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mSQL (0.029149)[0m   [0;1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [4;35;1mSQL (0.011724)[0m   [0mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;36;1mSQL (0.001487)[0m   [0;1mSELECT version FROM schema_migrations[0m
+Migrating to CreateEmployees (20090203174921)
+  [4;35;1mSQL (0.049258)[0m   [0mCREATE TABLE "employees" ("id" serial primary key, "ssn" integer, "name" text, "lot" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.002656)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20090203174921')[0m
+Migrating to CreateDepartments (20090203175230)
+  [4;35;1mSQL (0.036963)[0m   [0mCREATE TABLE "departments" ("id" serial primary key, "did" integer, "dname" text, "budget" float, "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;36;1mSQL (0.002473)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20090203175230')[0m
+  [4;35;1mSQL (0.000714)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.000293)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.000123)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mSQL (0.005162)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.022837)[0m   [0mINSERT INTO "employees" ("name", "updated_at", "ssn", "lot", "created_at") VALUES(E'Bob Snob', '2009-02-03 17:57:03.936703', 123456789, 27, '2009-02-03 17:57:03.936703') RETURNING "id"[0m
+  [4;36;1mSQL (0.019441)[0m   [0;1mCOMMIT[0m
+  [4;35;1mSQL (0.000321)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.006108)[0m   [0;1mINSERT INTO "departments" ("updated_at", "dname", "did", "budget", "created_at") VALUES('2009-02-03 17:58:11.315042', E'toy', 1, 100000000.0, '2009-02-03 17:58:11.315042') RETURNING "id"[0m
+  [4;35;1mSQL (0.002241)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.000294)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.000124)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mEmployee Load (0.005043)[0m   [0;1mSELECT * FROM "employees" LIMIT 1[0m
+  [4;35;1mDepartment Load (0.002428)[0m   [0mSELECT * FROM "departments" WHERE ("departments"."id" = 1) LIMIT 1[0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mPGError: ERROR: relation "departments_employees" does not exist
+: SELECT a.attname, format_type(a.atttypid, a.atttypmod), d.adsrc, a.attnotnull
+ FROM pg_attribute a LEFT JOIN pg_attrdef d
+ ON a.attrelid = d.adrelid AND a.attnum = d.adnum
+ WHERE a.attrelid = 'departments_employees'::regclass
+ AND a.attnum > 0 AND NOT a.attisdropped
+ ORDER BY a.attnum
+[0m
+  [4;36;1mSQL (0.000298)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.000123)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mSQL (0.002250)[0m   [0;1mSELECT version FROM schema_migrations[0m
+Migrating to CreateEmployees (20090203174921)
+Migrating to CreateDepartments (20090203175230)
+Migrating to EmpsDepts (20090203180336)
+  [4;35;1mSQL (0.056828)[0m   [0mCREATE TABLE "departments_employees" ("id" serial primary key, "employee_id" integer, "department_id" integer) [0m
+  [4;36;1mSQL (0.002450)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20090203180336')[0m
+  [4;35;1mSQL (0.000314)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.000298)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.000124)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mEmployee Load (0.002815)[0m   [0;1mSELECT * FROM "employees" WHERE ("employees"."name" = E'Bob Snob') LIMIT 1[0m
+  [4;35;1mDepartment Load (0.002392)[0m   [0mSELECT * FROM "departments" WHERE ("departments"."id" = 1) LIMIT 1[0m
+  [4;36;1mDepartment Load (0.002480)[0m   [0;1mSELECT * FROM "departments" INNER JOIN "departments_employees" ON "departments".id = "departments_employees".department_id WHERE ("departments_employees".employee_id = 1 ) [0m
+  [4;35;1mSQL (0.000731)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.003447)[0m   [0;1mINSERT INTO "departments_employees" ("employee_id", "id", "department_id") VALUES (1, 1, 1) RETURNING "id"[0m
+  [4;35;1mSQL (0.002919)[0m   [0mCOMMIT[0m
+  [4;36;1mEmployee Load (0.001906)[0m   [0;1mSELECT * FROM "employees" INNER JOIN "departments_employees" ON "employees".id = "departments_employees".employee_id WHERE ("departments_employees".department_id = 1 ) [0m
+  [4;35;1mSQL (0.000323)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.000217)[0m   [0;1mCOMMIT[0m
+  [4;36;1mSQL (0.000292)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.000127)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mEmployee Load (0.005065)[0m   [0;1mSELECT * FROM "employees" LIMIT 1[0m
+  [4;35;1mDepartment Load (0.002610)[0m   [0mSELECT * FROM "departments" LIMIT 1[0m
+  [4;36;1mEmployee Load (0.000000)[0m   [0;1mPGError: ERROR: column employees.department_id does not exist
+LINE 1: SELECT * FROM "employees" WHERE ("employees".department_...
+ ^
+: SELECT * FROM "employees" WHERE ("employees".department_id = 1) [0m
+  [4;36;1mSQL (0.000300)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.000124)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mSQL (0.000298)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.000128)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mSQL (0.002261)[0m   [0;1mSELECT version FROM schema_migrations[0m
+Migrating to CreateEmployees (20090203174921)
+Migrating to CreateDepartments (20090203175230)
+Migrating to EmpsDepts (20090203180336)
+Migrating to OneDept (20090203181652)
+  [4;35;1mSQL (0.035118)[0m   [0mDROP TABLE "departments_employees"[0m
+  [4;36;1mSQL (0.075295)[0m   [0;1mALTER TABLE "employees" ADD COLUMN "department_id" integer[0m
+  [4;35;1mSQL (0.002474)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20090203181652')[0m
+  [4;36;1mSQL (0.000321)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.000297)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.000122)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mEmployee Load (0.002745)[0m   [0;1mSELECT * FROM "employees" WHERE ("employees"."id" = 1) LIMIT 1[0m
+  [4;35;1mDepartment Load (0.002388)[0m   [0mSELECT * FROM "departments" LIMIT 1[0m
+  [4;36;1mEmployee Load (0.000788)[0m   [0;1mSELECT * FROM "employees" WHERE ("employees".department_id = 1) [0m
+  [4;35;1mSQL (0.000380)[0m   [0mBEGIN[0m
+  [4;36;1mEmployee Update (0.001104)[0m   [0;1mUPDATE "employees" SET "department_id" = 1, "updated_at" = '2009-02-03 18:21:03.876514' WHERE "id" = 1[0m
+  [4;35;1mSQL (0.002989)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.000281)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.000202)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.000488)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.000125)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mEmployee Load (0.014203)[0m   [0;1mSELECT * FROM "employees" LIMIT 1[0m
+  [4;35;1mDepartment Load (0.002459)[0m   [0mSELECT * FROM "departments" WHERE ("departments"."id" = 1) [0m
+  [4;36;1mEmployee Load (0.000784)[0m   [0;1mSELECT * FROM "employees" WHERE ("employees".department_id = 1) [0m

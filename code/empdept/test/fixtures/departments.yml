@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  did: 1
+  dname: MyText
+  budget: 1.5
+
+two:
+  did: 1
+  dname: MyText
+  budget: 1.5
